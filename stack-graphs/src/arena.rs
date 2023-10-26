@@ -186,7 +186,7 @@ impl<T> Arena<T> {
     #[cfg_attr(not(feature = "storage"), allow(dead_code))]
     #[inline(always)]
     pub(crate) fn clear(&mut self) {
-        self.items.clear();
+        self.items.truncate(1);
     }
 
     /// Adds a new instance to this arena, returning a stable handle to it.
@@ -203,7 +203,7 @@ impl<T> Arena<T> {
     pub fn get(&self, handle: Handle<T>) -> &T {
         unsafe { std::mem::transmute(&self.items[handle.as_usize()]) }
     }
-    ///
+
     /// Dereferences a handle to an instance owned by this arena, returning a mutable reference to
     /// it.
     pub fn get_mut(&mut self, handle: Handle<T>) -> &mut T {
@@ -293,7 +293,7 @@ impl<H, T> SupplementalArena<H, T> {
     #[cfg_attr(not(feature = "storage"), allow(dead_code))]
     #[inline(always)]
     pub(crate) fn clear(&mut self) {
-        self.items.clear();
+        self.items.truncate(1);
     }
 
     /// Creates a new, empty supplemental arena, preallocating enough space to store supplemental
